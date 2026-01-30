@@ -52,27 +52,9 @@ body{
 
 
 
-h1{
+h1,h2{text-align:center;}
 
-  text-align:center;
-
-  margin-bottom:10px;
-
-}
-
-
-
-p{
-
-  text-align:center;
-
-  color:#444;
-
-  font-size:14px;
-
-  margin-bottom:25px;
-
-}
+p{text-align:center;color:#444;font-size:14px;margin-bottom:25px;}
 
 
 
@@ -100,11 +82,17 @@ button{
 
 
 
-button:hover{
+button:disabled{
 
-  background:#0a3d62;
+  background:#999;
+
+  cursor:not-allowed;
 
 }
+
+
+
+button:hover:not(:disabled){background:#0a3d62;}
 
 
 
@@ -112,15 +100,7 @@ button:hover{
 
 
 
-label{
-
-  font-weight:600;
-
-  display:block;
-
-  margin-bottom:6px;
-
-}
+label{font-weight:600;display:block;margin-bottom:6px;}
 
 
 
@@ -142,13 +122,73 @@ select, textarea{
 
 
 
-textarea{
+textarea{resize:none;height:120px;}
 
-  resize:none;
 
-  height:120px;
+
+/* SEDES */
+
+.sedes{
+
+  display:flex;
+
+  flex-direction:column;
+
+  gap:12px;
+
+  margin-bottom:20px;
 
 }
+
+
+
+.sede{
+
+  border:2px solid #ccc;
+
+  padding:14px;
+
+  border-radius:12px;
+
+  cursor:pointer;
+
+  display:flex;
+
+  justify-content:space-between;
+
+  align-items:center;
+
+  font-size:16px;
+
+  transition:0.2s;
+
+}
+
+
+
+.sede.active{
+
+  border-color:#1e90ff;
+
+  background:#f0f8ff;
+
+}
+
+
+
+.check{
+
+  color:#1e90ff;
+
+  font-size:20px;
+
+  display:none;
+
+}
+
+
+
+.sede.active .check{display:block;}
 
 
 
@@ -191,8 +231,6 @@ textarea{
   border:2px solid #555;
 
   margin-bottom:6px;
-
-  transition:transform 0.2s, box-shadow 0.2s;
 
 }
 
@@ -240,35 +278,77 @@ input[type="radio"]:checked + .circle{
 
 <body>
 
-
-
 <div class="container">
 
 
+
+<!-- INICIO -->
 
 <div id="inicio">
 
   <h1>📩 Buzón de sugerencias<br>Contraloría 2026</h1>
 
-  <p>
+  <p>Hola querido estudiante 😁<br>Haz clic en continuar para enviar tu sugerencia.</p>
 
-    Hola querido estudiante 😁<br>
-
-    Haz clic en continuar para enviar tu sugerencia.
-
-  </p>
-
-  <button onclick="mostrarFormulario()">Continuar</button>
+  <button onclick="mostrarSedes()">Continuar</button>
 
 </div>
 
 
+
+<!-- SEDES -->
+
+<div id="sedes" class="hidden">
+
+  <h2>¿En qué sede estás? 🤔</h2>
+
+
+
+  <div class="sedes">
+
+    <div class="sede" onclick="seleccionarSede(this,'Sede Central')">
+
+      Sede Central <span class="check">✓</span>
+
+    </div>
+
+    <div class="sede" onclick="seleccionarSede(this,'Sede Don Bosco')">
+
+      Sede Don Bosco <span class="check">✓</span>
+
+    </div>
+
+    <div class="sede" onclick="seleccionarSede(this,'Sede La Monguí')">
+
+      Sede La Monguí <span class="check">✓</span>
+
+    </div>
+
+    <div class="sede" onclick="seleccionarSede(this,'Sede Pombo')">
+
+      Sede Pombo <span class="check">✓</span>
+
+    </div>
+
+  </div>
+
+
+
+  <button id="btnContinuar" onclick="mostrarFormulario()" disabled>Continuar</button>
+
+</div>
+
+
+
+<!-- FORMULARIO -->
 
 <div id="formulario" class="hidden">
 
 <form action="https://formsubmit.co/contralorsantiago2026@gmail.com" method="POST">
 
 
+
+<input type="hidden" name="Sede" id="sedeInput">
 
 <input type="hidden" name="_captcha" value="false">
 
@@ -284,17 +364,9 @@ input[type="radio"]:checked + .circle{
 
   <option value="">Selecciona tu grado</option>
 
-  <option>Sexto</option>
+  <option>Sexto</option><option>Séptimo</option><option>Octavo</option>
 
-  <option>Séptimo</option>
-
-  <option>Octavo</option>
-
-  <option>Noveno</option>
-
-  <option>Décimo</option>
-
-  <option>Once</option>
+  <option>Noveno</option><option>Décimo</option><option>Once</option>
 
 </select>
 
@@ -308,33 +380,23 @@ input[type="radio"]:checked + .circle{
 
     <input type="radio" name="Nivel" value="Cosas buenas" required>
 
-    <span class="circle green"></span>
-
-    <span>Bueno</span>
+    <span class="circle green"></span><span>Bueno</span>
 
   </label>
-
-
 
   <label class="color-option">
 
     <input type="radio" name="Nivel" value="Puede mejorar">
 
-    <span class="circle yellow"></span>
-
-    <span>Mejorar</span>
+    <span class="circle yellow"></span><span>Mejorar</span>
 
   </label>
-
-
 
   <label class="color-option">
 
     <input type="radio" name="Nivel" value="Situación delicada">
 
-    <span class="circle red"></span>
-
-    <span>Delicado</span>
+    <span class="circle red"></span><span>Delicado</span>
 
   </label>
 
@@ -376,7 +438,7 @@ input[type="radio"]:checked + .circle{
 
 <div class="footer">
 
-  I.E. Carlos Ramírez París – Cúcuta, Colombia © 2026
+I.E. Carlos Ramírez París – Cúcuta, Colombia © 2026
 
 </div>
 
@@ -388,9 +450,39 @@ input[type="radio"]:checked + .circle{
 
 <script>
 
-function mostrarFormulario(){
+let sedeSeleccionada = "";
+
+
+
+function mostrarSedes(){
 
   document.getElementById("inicio").classList.add("hidden");
+
+  document.getElementById("sedes").classList.remove("hidden");
+
+}
+
+
+
+function seleccionarSede(elemento, sede){
+
+  document.querySelectorAll(".sede").forEach(s=>s.classList.remove("active"));
+
+  elemento.classList.add("active");
+
+  sedeSeleccionada = sede;
+
+  document.getElementById("sedeInput").value = sede;
+
+  document.getElementById("btnContinuar").disabled = false;
+
+}
+
+
+
+function mostrarFormulario(){
+
+  document.getElementById("sedes").classList.add("hidden");
 
   document.getElementById("formulario").classList.remove("hidden");
 
